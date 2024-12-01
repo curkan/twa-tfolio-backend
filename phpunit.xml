@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/10.2/phpunit.xsd" bootstrap="vendor/autoload.php" colors="true">
+  <testsuites>
+    <testsuite name="Unit">
+        <directory suffix=".php">./app/Containers/*/*/Tests</directory>
+    </testsuite>
+    <testsuite name="Feature">
+        <directory suffix=".php">./app/Containers/*/*/UI/*/Tests</directory>
+    </testsuite>
+  </testsuites>
+  <coverage/>
+  <php>
+    <env name="APP_ENV" value="testing" force="true"/>
+    <env name="BCRYPT_ROUNDS" value="4"/>
+    <env name="CACHE_DRIVER" value="array"/>
+    <env name="DB_CONNECTION" value="fortest" force="true"/>
+    <!-- <env name="DB_DATABASE" value=":memory:"/> -->
+    <env name="MAIL_MAILER" value="array"/>
+    <env name="QUEUE_CONNECTION" value="sync"/>
+    <env name="SESSION_DRIVER" value="array"/>
+    <env name="TELESCOPE_ENABLED" value="false"/>
+    <ini name="display_errors" value="stderr" />
+    <ini name="display_startup_errors" value="On" />
+  </php>
+  <source>
+    <include>
+      <directory suffix=".php">./app</directory>
+    </include>
+  </source>
+</phpunit>

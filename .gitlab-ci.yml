@@ -1,0 +1,58 @@
+image: registry.catinbag.xyz/gogain/backend-tests:v1.1
+
+services:
+  - name: postgres:16-alpine
+    alias: postgres
+  - name: redis
+    command:
+      - redis-server
+      - --requirepass PasswordRedis
+    alias: redis
+
+variables:
+  # How configure mysql service (https://hub.docker.com/_/mysql/)
+  POSTGRES_DB: goga_db_fortest
+  POSTGRES_USER: root
+  POSTGRES_PASSWORD: G00xGU0Dj7O
+  REDIS_HOST: redis
+  REDIS_PASSWORD: PasswordRedis
+  REDIS_PORT: 6379
+
+# Composer stores all downloaded packages in the vendor/ directory.
+# Do not use the following if the vendor/ directory is committed to
+# your git repository.
+cache:
+  paths:
+    - vendor/
+
+before_script:
+  # Install composer dependencies
+  - 'command -v ssh-agent >/dev/null || ( apt-get update -y && apt-get install openssh-client -y )'
+  - eval $(ssh-agent -s)
+  - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add -
+  - mkdir -p ~/.ssh
+  - chmod 700 ~/.ssh
+  - echo "$GIT_URL" >> ~/.ssh/known_hosts
+  - chmod 644 ~/.ssh/known_hosts
+  - echo "HOST *" > ~/.ssh/config
+  - echo "StrictHostKeyChecking no" >> ~/.ssh/config
+  - composer install
+
+stages:
+  - test
+
+lint_and_tests:
+  stage: test
+  script:
+    # - composer run test-p
+    - ./vendor/bin/php-cs-fixer fix --config=.php-cs-fixer.php --dry-run --allow-risky=yes -vv
+    - ./vendor/bin/phpstan analyse
+    - php -d display_errors=on artisan l5-swagger:generate
+    - php -d display_errors=on artisan test --parallel --testsuite=Feature --log-junit junit.xml
+    - php -d display_errors=on artisan test --parallel --testsuite=Unit --log-junit junit.xml
+  artifacts:
+    when: always
+    paths:
+      - junit.xml
+    reports:
+      junit: junit.xml
