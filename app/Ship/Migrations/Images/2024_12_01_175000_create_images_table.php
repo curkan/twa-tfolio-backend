@@ -14,13 +14,14 @@ return new class extends Migration {
      */
     public function up(): void
     {
-        Schema::create('users', function (Blueprint $table): void {
+        Schema::create('images', function (Blueprint $table): void {
             $table->id();
-            $table->string('first_name')->nullable();
-            $table->string('last_name')->nullable();
-            $table->string('username')->unique()->nullable();
-            $table->string('language_code')->nullable();
-            $table->boolean('allows_write_to_pm');
+            $table->foreignId('user_id')->constrained();
+            $table->string('bucket')->nullable();
+            $table->string('original')->nullable();
+            $table->string('md')->nullable();
+            $table->string('sm')->nullable();
+            $table->string('xs')->nullable();
             $table->timestamps();
         });
     }
@@ -32,6 +33,6 @@ return new class extends Migration {
      */
     public function down(): void
     {
-        Schema::dropIfExists('users');
+        Schema::dropIfExists('images');
     }
 };

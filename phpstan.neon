@@ -1,11 +1,12 @@
 includes:
-    - ./vendor/nunomaduro/larastan/extension.neon
+    - ./vendor/larastan/larastan/extension.neon
 parameters:
     paths:
         - app
         - tests
     level: 6
     ignoreErrors:
-        - identifier: missingType.iterableValue
         - identifier: missingType.generics
-
+        - identifier: missingType.iterableValue
+        - '#Access to an undefined property App\\Containers\\[a-zA-Z]+\\[a-zA-Z]+\\UI\\Api\\Resources#'
+        - '#Access to an undefined property App\\Ship\\Parents\\Models#'

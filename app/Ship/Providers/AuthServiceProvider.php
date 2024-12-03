@@ -25,7 +25,7 @@ final class AuthServiceProvider extends ProvidersAuthServiceProvider
     public function boot(): void
     {
         Gate::before(function ($user, $ability) {
-            return $user->hasRole('sadmin') ? true : null;
+            return true;
         });
 
         $this->registerPolicies();

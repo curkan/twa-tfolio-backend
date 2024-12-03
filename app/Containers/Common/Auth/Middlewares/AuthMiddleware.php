@@ -22,6 +22,10 @@ final class AuthMiddleware
     public function handle(Request $request, Closure $next): JsonResponse
     {
         $token = $request->bearerToken();
+        if ($token === null) {
+            throw new AuthenticationException('Not set data');
+        }
+
         $queryString = base64_decode($token);
         $twaAuth = new TWAAuth($queryString);
         parse_str($queryString, $queryParams);
