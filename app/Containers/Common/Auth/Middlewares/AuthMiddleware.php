@@ -48,6 +48,7 @@ final class AuthMiddleware
                 'first_name' => $user->getFirstName(),
                 'last_name' => $user->getLastName(),
                 'username' => $user->getUsername(),
+                'photo_url' => $user->getPhotoUrl(),
                 'language_code' => $user->getLanguageCode(),
                 'allows_write_to_pm' => $user->getAllowsWriteToPm(),
             ]);

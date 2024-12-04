@@ -29,6 +29,9 @@ class User extends UserModel
         'username',
         'language_code',
         'allows_write_to_pm',
+        'photo_url',
+        'display_name',
+        'biography',
     ];
 
     /**

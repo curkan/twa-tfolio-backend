@@ -21,6 +21,9 @@ return new class extends Migration {
             $table->string('username')->unique()->nullable();
             $table->string('language_code')->nullable();
             $table->boolean('allows_write_to_pm');
+            $table->string('photo_url', 1024)->nullable();
+            $table->string('display_name', 128)->nullable();
+            $table->string('biography', 1024)->nullable();
             $table->timestamps();
         });
     }

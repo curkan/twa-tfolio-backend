@@ -12,7 +12,8 @@ class User
         private ?string $lastName,
         private ?string $username,
         private ?string $languageCode,
-        private ?bool $allowsWriteToPm
+        private ?bool $allowsWriteToPm,
+        private ?string $photoUrl
     ) {}
 
     /**
@@ -29,6 +30,7 @@ class User
             username: $array['username'],
             languageCode: $array['language_code'],
             allowsWriteToPm: $array['allows_write_to_pm'],
+            photoUrl: $array['photo_url'],
         );
     }
 
@@ -78,5 +80,13 @@ class User
     public function getAllowsWriteToPm(): bool
     {
         return $this->allowsWriteToPm;
+    }
+
+    /**
+     * @return ?string
+     */
+    public function getPhotoUrl(): ?string
+    {
+        return $this->photoUrl;
     }
 }
