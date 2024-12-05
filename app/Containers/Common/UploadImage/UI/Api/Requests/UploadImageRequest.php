@@ -27,7 +27,7 @@ final class UploadImageRequest extends Request
     public function rules()
     {
         return [
-            'picture' => 'file|image|mimes:jpg,jpeg,png,gif|max:2048',
+            'picture' => 'file|image|mimes:jpg,jpeg,png,gif|max:20480',
         ];
     }
 }
