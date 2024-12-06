@@ -9,6 +9,7 @@ use App\Ship\Parents\Controllers\ApiController;
 use App\Ship\Parents\Models\Node;
 use Auth;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 
 final class GetGridController extends ApiController
 {
@@ -24,10 +25,12 @@ final class GetGridController extends ApiController
      * )
      *
      * @return JsonResponse
+     * @param Request $request
      */
-    public function __invoke(): JsonResponse
+    public function __invoke(Request $request): JsonResponse
     {
-        $nodes = Node::where('user_id', Auth::id())->get();
+        $userId = $request->has('user_id') ? $request->input('user_id') : Auth::id();
+        $nodes = Node::where('user_id', $userId)->get();
 
         return $this->resourceCollection(GridResource::make((object) [
             'id' => Auth::id(),
