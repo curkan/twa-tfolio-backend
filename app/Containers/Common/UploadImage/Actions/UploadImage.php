@@ -9,13 +9,17 @@ use App\Ship\Parents\Models\Image as ModelsImage;
 use App\Ship\Parents\Models\Model;
 use App\Ship\Parents\Models\Node;
 use App\Ship\Services\Storages\YandexProfileStorage;
+use Illuminate\Filesystem\Filesystem;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\File;
 use Intervention\Image\Facades\Image;
 use Str;
 
 final class UploadImage
 {
+    private const TEMP_HEIC_STORAGE_DIR = 'app/heic_images/';
+
     /**
      * @param UploadedFile $file
      *
@@ -23,7 +27,12 @@ final class UploadImage
      */
     public function run(UploadedFile $file): Node
     {
-        $image = Image::make($file->path());
+        if ($file->getMimeType() == 'image/heic') {
+            $image = $this->convertHeic($file);
+        } else {
+            $image = Image::make($file->path());
+        }
+
         $sizes = [
             'original' => null,
             'md' => [800, null],
@@ -61,6 +70,9 @@ final class UploadImage
 
         $lastNode = Node::where('user_id', Auth::id())->orderByDesc('sort')->first();
 
+        $file = new Filesystem();
+        $file->cleanDirectory('storage/app/heic_images');
+
         return Node::create([
             'user_id' => Auth::id(),
             'image_id' => $imageModel->getKey(),
@@ -71,5 +83,31 @@ final class UploadImage
             'h' => 2,
             'sort' => $lastNode === null ? 1 : ++$lastNode->sort,
         ]);
+    }
+
+    /**
+     * @param UploadedFile $file
+     */
+    private function convertHeic(UploadedFile $file): \Intervention\Image\Image
+    {
+        $extension = $file->getClientOriginalExtension();
+
+        $randomFilename = bin2hex(random_bytes(8));
+
+        $tmpFilepath = storage_path(
+            self::TEMP_HEIC_STORAGE_DIR .
+            $randomFilename . ".{$extension}"
+        );
+
+        $convertedFilepath = storage_path(
+            self::TEMP_HEIC_STORAGE_DIR .
+            $randomFilename . '.jpg'
+        );
+
+        File::put($tmpFilepath, $file->getContent());
+
+        exec('convert "' . $tmpFilepath . '" "' . $convertedFilepath . '"');
+
+        return Image::make($convertedFilepath);
     }
 }
