@@ -7,6 +7,7 @@ namespace App\Containers\Common\Grid\UI\Api\Controllers;
 use App\Containers\Common\Grid\UI\Api\Resources\GridResource;
 use App\Ship\Parents\Controllers\ApiController;
 use App\Ship\Parents\Models\Node;
+use Auth;
 use Illuminate\Http\JsonResponse;
 
 final class GetGridController extends ApiController
@@ -26,10 +27,10 @@ final class GetGridController extends ApiController
      */
     public function __invoke(): JsonResponse
     {
-        $nodes = Node::all();
+        $nodes = Node::where('user_id', Auth::id())->get();
 
         return $this->resourceCollection(GridResource::make((object) [
-            'id' => 1234,
+            'id' => Auth::id(),
             'nodes' => $nodes,
         ]));
     }

@@ -17,7 +17,8 @@
         "laravel/framework": "^11.0",
         "laravel/sanctum": "^4.0",
         "laravel/tinker": "^2.7",
-        "league/flysystem-aws-s3-v3": "^3.0"
+        "league/flysystem-aws-s3-v3": "^3.0",
+        "pion/laravel-chunk-upload": "*"
     },
     "require-dev": {
         "barryvdh/laravel-ide-helper": "^3.0",

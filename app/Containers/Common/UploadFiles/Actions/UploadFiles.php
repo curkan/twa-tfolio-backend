@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Containers\Common\UploadImage\Actions;
+namespace App\Containers\Common\UploadFiles\Actions;
 
 use App\Ship\Parents\Enums\Nodes\NodeTypeEnum;
 use App\Ship\Parents\Models\Image as ModelsImage;
@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Auth;
 use Intervention\Image\Facades\Image;
 use Str;
 
-final class UploadImage
+final class UploadFiles
 {
     /**
      * @param UploadedFile $file
@@ -39,7 +39,7 @@ final class UploadImage
 
         foreach ($sizes as $size => $dimensions) {
             if ($size === 'original') {
-                $image->encode('webp', 100);
+                $image->encode('webp', 100)->save($image->basePath());
                 $nameFile = resolve(YandexProfileStorage::class)->filesystem()->putFile(
                     Auth::id() . '/',
                     $image->basePath()
