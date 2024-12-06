@@ -10,6 +10,7 @@ use App\Ship\Services\Responses\Responses;
 use App\Ship\Services\Traits\Exceptions\ContextMessageSerializer;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\UnauthorizedException;
 use Illuminate\Validation\ValidationException;
 use InvalidArgumentException;
@@ -108,6 +109,7 @@ final class Handler extends ExceptionHandler
         $this->renderable(function (Throwable $e) {
             $message = ($e instanceof HttpException || app()->isLocal() || config('app.env') === 'testing') ? $e->getMessage() : Messages::INTERNAL_ERROR;
             $status = $e instanceof HttpException ? $e->getStatusCode() : Response::HTTP_INTERNAL_SERVER_ERROR;
+            Log::error("Exc: {$e->getMessage()}: \n {$e->getTraceAsString()}");
 
             return Responses::empty($message, $status);
         });
