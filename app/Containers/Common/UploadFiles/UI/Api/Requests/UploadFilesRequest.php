@@ -26,7 +26,7 @@ final class UploadFilesRequest extends Request
     public function rules()
     {
         return [
-            'files' => 'required|file|max:20480',
+            'files' => 'required|file|max:35000',
         ];
     }
 }
