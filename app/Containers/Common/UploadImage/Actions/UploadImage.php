@@ -78,6 +78,7 @@ final class UploadImage
             }
         }
 
+        unset($image);
         $imageModel->save();
         unlink($file->getPathname());
 
