@@ -47,9 +47,9 @@ final class UploadImage
 
         $sizes = [
             'original' => null,
-            'md' => [800, null],
-            'sm' => [400, null],
-            'xs' => [200, null],
+            'md' => [1200, null],
+            'sm' => [800, null],
+            'xs' => [400, null],
         ];
 
         /**
