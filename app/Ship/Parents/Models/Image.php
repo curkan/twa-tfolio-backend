@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Ship\Parents\Models;
 
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Image extends Model
 {
@@ -27,6 +27,14 @@ class Image extends Model
         'sm',
         'xs',
     ];
+
+    /**
+     * @return BelongsTo
+     */
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
+    }
 
     /**
      * @return ?string
@@ -87,7 +95,7 @@ class Image extends Model
             '/' .
             config('filesystems.disks.yandex_profiles.bucket') .
             '/' .
-            Auth::id() .
+            $this->user->getKey() .
             '/' . $key;
     }
 
