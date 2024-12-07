@@ -30,8 +30,20 @@ final class UploadImage
         if ($file->getMimeType() == 'image/heic') {
             $image = $this->convertHeic($file);
         } else {
-            $image = Image::make($file->path());
+            $fileName = $this->createFilename($file);
+            $mime = str_replace('/', '-', $file->getMimeType());
+            // Group files by the date (week
+            $dateFolder = date('Y-m-W');
+
+            // Build the file path
+            $filePath = "upload/{$mime}/{$dateFolder}/";
+            $finalPath = storage_path('app/' . $filePath);
+
+            // move the file name
+            $file = $file->move($finalPath, $fileName);
+            $image = Image::make($file);
         }
+
 
         $sizes = [
             'original' => null,
@@ -48,7 +60,7 @@ final class UploadImage
 
         foreach ($sizes as $size => $dimensions) {
             if ($size === 'original') {
-                $image->encode('webp', 100);
+                $image->encode('webp', 100)->save($image->basePath(), 100, 'webp');
                 $nameFile = resolve(YandexProfileStorage::class)->filesystem()->putFile(
                     Auth::id() . '/',
                     $image->basePath()
@@ -57,7 +69,7 @@ final class UploadImage
             } else {
                 $image->resize($dimensions[0], null, function ($constraint): void {
                     $constraint->aspectRatio();
-                })->encode('webp', 100);
+                })->encode('webp', 100)->save($image->basePath(), 100, 'webp');
                 $nameFile = resolve(YandexProfileStorage::class)->filesystem()->putFile(
                     Auth::id() . '/',
                     $image->basePath()
@@ -67,11 +79,13 @@ final class UploadImage
         }
 
         $imageModel->save();
+        unlink($file->getPathname());
 
         $lastNode = Node::where('user_id', Auth::id())->orderByDesc('sort')->first();
 
         $file = new Filesystem();
-        $file->cleanDirectory('storage/app/heic_images');
+
+        $file->cleanDirectory(storage_path(self::TEMP_HEIC_STORAGE_DIR));
 
         return Node::create([
             'user_id' => Auth::id(),
@@ -109,5 +123,19 @@ final class UploadImage
         exec('convert "' . $tmpFilepath . '" "' . $convertedFilepath . '"');
 
         return Image::make($convertedFilepath);
+    }
+
+    /**
+     * @param UploadedFile $file
+     */
+    private function createFilename(UploadedFile $file): string
+    {
+        $extension = $file->getClientOriginalExtension();
+        $filename = str_replace('.' . $extension, '', $file->getClientOriginalName()); // Filename without extension
+
+        // Add timestamp hash to name of the file
+        $filename .= '_' . md5((string) time()) . '.' . $extension;
+
+        return $filename;
     }
 }
