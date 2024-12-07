@@ -47,6 +47,7 @@ final class AuthMiddleware
                 'id' => $user->getId(),
                 'first_name' => $user->getFirstName(),
                 'last_name' => $user->getLastName(),
+                'display_name' => $user->getFirstName(),
                 'username' => $user->getUsername(),
                 'photo_url' => $user->getPhotoUrl(),
                 'language_code' => $user->getLanguageCode(),
