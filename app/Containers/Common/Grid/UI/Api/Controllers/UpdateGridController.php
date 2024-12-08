@@ -11,6 +11,7 @@ use App\Ship\Parents\Models\Image;
 use App\Ship\Parents\Models\Node;
 use Auth;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\DB;
 
 final class UpdateGridController extends ApiController
 {
@@ -36,6 +37,7 @@ final class UpdateGridController extends ApiController
             $this->authorize(false);
         }
 
+        DB::beginTransaction();
         foreach ($nodesFromUser as $node) {
             /** @var Node $node */
             $node->update([
@@ -50,6 +52,7 @@ final class UpdateGridController extends ApiController
         $unusedImagesIds = Node::query()->where('user_id', Auth::id())->whereNotIn('id', $nodesIds)->pluck('image_id');
         Node::query()->where('user_id', Auth::id())->whereNotIn('id', $nodesIds)->delete();
         Image::query()->where('user_id', Auth::id())->whereIn('id', $unusedImagesIds)->delete();
+        DB::commit();
 
         $nodes = $nodesFromUser;
 
