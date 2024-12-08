@@ -96,9 +96,10 @@ class Image extends Model
             config('filesystems.disks.yandex_profiles.bucket') .
             '/' .
             $this->user->getKey() .
+            '/' .
+            $this->getKey() .
             '/' . $key;
     }
-
 
     // /**
     //  * @return UserFactory|null

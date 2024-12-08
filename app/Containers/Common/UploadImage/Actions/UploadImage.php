@@ -57,12 +57,13 @@ final class UploadImage
          */
         $imageModel = new ModelsImage();
         $imageModel->user_id = Auth::id();
+        $imageModel->save();
 
         foreach ($sizes as $size => $dimensions) {
             if ($size === 'original') {
                 $image->encode('webp', 100)->save($image->basePath(), 100, 'webp');
                 $nameFile = resolve(YandexProfileStorage::class)->filesystem()->putFile(
-                    Auth::id() . '/',
+                    Auth::id() . '/' . $imageModel->getKey() . '/',
                     $image->basePath()
                 );
                 $imageModel->original = Str::contains($nameFile, '/') ? Str::afterLast($nameFile, '/') : $nameFile; /* @phpstan-ignore-line */
@@ -71,7 +72,7 @@ final class UploadImage
                     $constraint->aspectRatio();
                 })->encode('webp', 100)->save($image->basePath(), 100, 'webp');
                 $nameFile = resolve(YandexProfileStorage::class)->filesystem()->putFile(
-                    Auth::id() . '/',
+                    Auth::id() . '/' . $imageModel->getKey() . '/',
                     $image->basePath()
                 );
                 $imageModel->{$size} = Str::contains($nameFile, '/') ? Str::afterLast($nameFile, '/') : $nameFile;
