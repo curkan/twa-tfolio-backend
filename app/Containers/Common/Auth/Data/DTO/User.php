@@ -29,7 +29,7 @@ class User
             lastName: $array['last_name'],
             username: $array['username'],
             languageCode: $array['language_code'],
-            allowsWriteToPm: $array['allows_write_to_pm'],
+            allowsWriteToPm: $array['allows_write_to_pm'] ?? null,
             photoUrl: $array['photo_url'],
         );
     }

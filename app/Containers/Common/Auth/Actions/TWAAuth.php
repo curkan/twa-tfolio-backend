@@ -51,9 +51,4 @@ class TWAAuth
 
         return [$hash, implode("\n", $initDataArray)];
     }
-
-    public function toArray(): array
-    {
-        return [];
-    }
 }
