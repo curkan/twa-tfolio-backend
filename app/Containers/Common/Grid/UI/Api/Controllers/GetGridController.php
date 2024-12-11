@@ -7,9 +7,11 @@ namespace App\Containers\Common\Grid\UI\Api\Controllers;
 use App\Containers\Common\Grid\UI\Api\Resources\GridResource;
 use App\Ship\Parents\Controllers\ApiController;
 use App\Ship\Parents\Models\Node;
+use App\Ship\Parents\Models\View;
 use Auth;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 
 final class GetGridController extends ApiController
 {
@@ -31,6 +33,20 @@ final class GetGridController extends ApiController
     {
         $userId = $request->has('user_id') ? $request->input('user_id') : Auth::id();
         $nodes = Node::where('user_id', $userId)->get();
+
+        if ($userId != Auth::id()) {
+            $existsViewInFifteenMinutes = View::where('user_id', Auth::id())
+                ->where('viewed_user_id', $userId)
+                ->where('created_at', '>', Carbon::now()->subMinutes(15))
+                ->exists();
+
+            if (!$existsViewInFifteenMinutes) {
+                View::create([
+                    'user_id' => Auth::id(),
+                    'viewed_user_id' => $userId,
+                ]);
+            }
+        }
 
         return $this->resourceCollection(GridResource::make((object) [
             'id' => Auth::id(),

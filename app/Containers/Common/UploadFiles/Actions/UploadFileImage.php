@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Containers\Common\UploadImage\Actions;
+namespace App\Containers\Common\UploadFiles\Actions;
 
 use App\Ship\Parents\Enums\Nodes\NodeTypeEnum;
 use App\Ship\Parents\Models\Image as ModelsImage;
@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\File;
 use Intervention\Image\Facades\Image;
 use Str;
 
-final class UploadImage
+final class UploadFileImage
 {
     private const TEMP_HEIC_STORAGE_DIR = 'app/heic_images/';
 
