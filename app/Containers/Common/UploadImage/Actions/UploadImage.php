@@ -40,10 +40,11 @@ final class UploadImage
             $finalPath = storage_path('app/' . $filePath);
 
             // move the file name
-            $file = $file->move($finalPath, $fileName);
-            $image = Image::make($file);
-        }
 
+            $file = $file->move($finalPath, $fileName);
+
+            $image = Image::configure(['driver' => 'imagick'])->make($file->getRealPath());
+        }
 
         $sizes = [
             'original' => null,
@@ -66,15 +67,18 @@ final class UploadImage
                     Auth::id() . '/' . $imageModel->getKey() . '/',
                     $image->basePath()
                 );
+
                 $imageModel->original = Str::contains($nameFile, '/') ? Str::afterLast($nameFile, '/') : $nameFile; /* @phpstan-ignore-line */
             } else {
                 $image->resize($dimensions[0], null, function ($constraint): void {
                     $constraint->aspectRatio();
                 })->encode('webp', 100)->save($image->basePath(), 100, 'webp');
+
                 $nameFile = resolve(YandexProfileStorage::class)->filesystem()->putFile(
                     Auth::id() . '/' . $imageModel->getKey() . '/',
                     $image->basePath()
                 );
+
                 $imageModel->{$size} = Str::contains($nameFile, '/') ? Str::afterLast($nameFile, '/') : $nameFile;
             }
         }
