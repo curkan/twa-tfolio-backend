@@ -18,9 +18,13 @@ final class MeResource extends JsonResource
     {
         return [
             'id' => $this->id,
+            'username' => $this->username,
             'photo_url' => $this->photo_url,
             'display_name' => $this->display_name,
             'biography' => $this->biography,
+            'settings' => [
+                'enabled_send_me_button' => $this->settings->get('enabled_send_me_button'),
+            ],
         ];
     }
 }

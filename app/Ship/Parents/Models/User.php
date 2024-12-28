@@ -6,12 +6,15 @@ namespace App\Ship\Parents\Models;
 
 use App\Ship\Core\Abstracts\Models\UserModel;
 use App\Ship\Parents\Factories\UserFactory;
+use Npabisz\LaravelSettings\Traits\HasSettings;
 
 /**
  * @see UserModel
  */
 class User extends UserModel
 {
+    use HasSettings;
+
     /**
      * @var string
      */
@@ -33,6 +36,20 @@ class User extends UserModel
         'display_name',
         'biography',
     ];
+
+    /**
+     * @return array
+     */
+    public static function getSettingsDefinitions(): array
+    {
+        return [
+            [
+                'name' => 'enabled_send_me_button',
+                'cast' => 'bool',
+                'default' => true,
+            ],
+        ];
+    }
 
     /**
      * @return UserFactory|null
