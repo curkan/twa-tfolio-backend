@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "e698fd72e7fe2ca2a466b21a8497e42d",
+    "content-hash": "b3050af4eb17e273a3af4684ec778ae2",
     "packages": [
         {
             "name": "aws/aws-crt-php",
@@ -3817,6 +3817,64 @@
                 "source": "https://github.com/nikic/PHP-Parser/tree/v5.3.1"
             },
             "time": "2024-10-08T18:51:32+00:00"
+        },
+        {
+            "name": "npabisz/laravel-settings",
+            "version": "v1.0.11",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/npabisz/laravel-settings.git",
+                "reference": "761ea750a6000be5c69dd25d7fcf8054caf8269c"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/npabisz/laravel-settings/zipball/761ea750a6000be5c69dd25d7fcf8054caf8269c",
+                "reference": "761ea750a6000be5c69dd25d7fcf8054caf8269c",
+                "shasum": ""
+            },
+            "require": {
+                "ext-json": "*",
+                "illuminate/contracts": "^9.0|^10.0|^11.0",
+                "illuminate/database": "^9.0|^10.0|^11.0",
+                "illuminate/support": "^9.0|^10.0|^11.0",
+                "php": "^8.1|^8.2|^8.3"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "aliases": {
+                        "Settings": "Npabisz\\LaravelSettings\\Facades\\Settings"
+                    },
+                    "providers": [
+                        "Npabisz\\LaravelSettings\\SettingsServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Npabisz\\LaravelSettings\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Norbert Pabisz",
+                    "email": "yorki.ogame@gmail.com"
+                }
+            ],
+            "description": "Settings for Laravel.",
+            "keywords": [
+                "Settings",
+                "laravel"
+            ],
+            "support": {
+                "issues": "https://github.com/npabisz/laravel-settings/issues",
+                "source": "https://github.com/npabisz/laravel-settings/tree/v1.0.11"
+            },
+            "time": "2024-10-22T20:40:04+00:00"
         },
         {
             "name": "nunomaduro/termwind",
