@@ -23,12 +23,18 @@ final class NodeResource extends JsonResource
             'y' => $this->y,
             'w' => $this->w,
             'h' => $this->h,
-            'image' => [
+            'image' => $this->when($this->image !== null, fn () => [
                 'original' => $this->image->pictureOriginal,
                 'md' => $this->image->pictureMd,
                 'sm' => $this->image->pictureSm,
                 'xs' => $this->image->pictureXs,
-            ],
+            ]),
+            'image' => $this->when($this->video !== null, fn () => [
+                'original' => $this->image->pictureOriginal,
+                'md' => $this->image->pictureMd,
+                'sm' => $this->image->pictureSm,
+                'xs' => $this->image->pictureXs,
+            ]),
         ];
     }
 }

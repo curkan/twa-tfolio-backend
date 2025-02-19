@@ -33,6 +33,7 @@ class Node extends Model
         'h',
         'type',
         'image_id',
+        'video_id',
     ];
 
     /**

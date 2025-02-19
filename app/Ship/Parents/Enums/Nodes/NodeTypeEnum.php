@@ -11,4 +11,5 @@ enum NodeTypeEnum: string
     use EnumExtention;
 
     case Image = 'image';
+    case Video = 'video';
 }
