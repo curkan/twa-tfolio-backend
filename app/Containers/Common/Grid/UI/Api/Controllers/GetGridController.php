@@ -32,7 +32,7 @@ final class GetGridController extends ApiController
     public function __invoke(Request $request): JsonResponse
     {
         $userId = $request->has('user_id') ? $request->input('user_id') : Auth::id();
-        $nodes = Node::where('user_id', $userId)->get();
+        $nodes = Node::where('user_id', $userId)->orderBy('y')->get();
 
         if ($userId != Auth::id()) {
             $existsViewInFifteenMinutes = View::where('user_id', Auth::id())
