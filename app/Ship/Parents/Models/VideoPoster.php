@@ -11,7 +11,7 @@ class VideoPoster extends Model
     /**
      * @var string
      */
-    protected $table = 'videos';
+    protected $table = 'video_posters';
 
     /**
      * The attributes that are mass assignable.
@@ -37,6 +37,54 @@ class VideoPoster extends Model
     }
 
     /**
+     * @return ?string
+     */
+    public function getPictureOriginalAttribute(): ?string
+    {
+        if ($this->attributes['original'] === null) {
+            return null;
+        }
+
+        return $this->makePath($this->attributes['original']);
+    }
+
+    /**
+     * @return ?string
+     */
+    public function getPictureMdAttribute(): ?string
+    {
+        if ($this->attributes['md'] === null) {
+            return null;
+        }
+
+        return $this->makePath($this->attributes['md']);
+    }
+
+    /**
+     * @return ?string
+     */
+    public function getPictureSmAttribute(): ?string
+    {
+        if ($this->attributes['sm'] === null) {
+            return null;
+        }
+
+        return $this->makePath($this->attributes['sm']);
+    }
+
+    /**
+     * @return ?string
+     */
+    public function getPictureXsAttribute(): ?string
+    {
+        if ($this->attributes['xs'] === null) {
+            return null;
+        }
+
+        return $this->makePath($this->attributes['xs']);
+    }
+
+    /**
      * @param string $key
      *
      * @return string
@@ -47,9 +95,9 @@ class VideoPoster extends Model
             '/' .
             config('filesystems.disks.yandex_profiles.bucket') .
             '/' .
-            $this->user->getKey() .
-            '/' .
-            $this->getKey() .
-            '/' . $key;
+            $this->video->user->getKey() .
+            '/videos/' .
+            $this->video->getKey() .
+            '/posters/' . $key;
     }
 }

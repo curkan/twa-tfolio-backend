@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Ship\Parents\Models;
 
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Video extends Model
 {
@@ -31,6 +32,14 @@ class Video extends Model
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
+    }
+
+    /**
+     * @return HasOne
+     */
+    public function poster(): HasOne
+    {
+        return $this->hasOne(VideoPoster::class, 'video_id', 'id');
     }
 
     /**

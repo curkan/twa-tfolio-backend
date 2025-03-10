@@ -44,6 +44,13 @@ class Node extends Model
         return $this->belongsTo(Image::class);
     }
 
+    /**
+     * @return BelongsTo
+     */
+    public function video(): BelongsTo
+    {
+        return $this->belongsTo(Video::class);
+    }
     // /**
     //  * @return UserFactory|null
     //  */
