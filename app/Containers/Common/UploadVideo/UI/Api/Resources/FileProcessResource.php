@@ -8,7 +8,7 @@ use Illuminate\Http\Resources\Json\JsonResource;
 
 /**
  * @OA\Schema(
- *  schema="FileProcess",
+ *  schema="FileProcessVideo:",
  *  title="File process resource",
  * 	@OA\Property(
  * 		property="process",

@@ -91,9 +91,9 @@ class Image extends Model
      */
     public function makePath(string $key): string
     {
-        return config('filesystems.disks.yandex_profiles.endpoint') .
+        return config('filesystems.disks.s3_images.endpoint') .
             '/' .
-            config('filesystems.disks.yandex_profiles.bucket') .
+            config('filesystems.disks.s3_images.bucket') .
             '/' .
             $this->user->getKey() .
             '/' .

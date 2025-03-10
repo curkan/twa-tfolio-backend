@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Ship\Parents\Models;
 
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Video extends Model
 {
@@ -34,19 +35,39 @@ class Video extends Model
     }
 
     /**
+     * @return HasOne
+     */
+    public function poster(): HasOne
+    {
+        return $this->hasOne(VideoPoster::class, 'video_id', 'id');
+    }
+
+    /**
      * @param string $key
      *
      * @return string
      */
     public function makePath(string $key): string
     {
-        return config('filesystems.disks.yandex_profiles.endpoint') .
+        return config('filesystems.disks.s3_videos.endpoint') .
             '/' .
-            config('filesystems.disks.yandex_profiles.bucket') .
+            config('filesystems.disks.s3_videos.bucket') .
             '/' .
             $this->user->getKey() .
             '/' .
             $this->getKey() .
             '/' . $key;
+    }
+
+    /**
+     * @return ?string
+     */
+    public function getVideoUrlAttribute(): ?string
+    {
+        if ($this->attributes['link'] === null) {
+            return null;
+        }
+
+        return $this->makePath($this->attributes['link']);
     }
 }

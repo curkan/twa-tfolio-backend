@@ -6,8 +6,8 @@ namespace App\Containers\Common\UploadVideo\UI\Api\Controllers;
 
 use App\Containers\Common\Grid\UI\Api\Resources\NodeResource;
 use App\Containers\Common\UploadVideo\Actions\UploadFileVideo;
-use App\Containers\Common\UploadVideo\UI\Api\Resources\FileProcessResource;
 use App\Containers\Common\UploadVideo\UI\Api\Requests\UploadVideoRequest;
+use App\Containers\Common\UploadVideo\UI\Api\Resources\FileProcessResource;
 use App\Ship\Parents\Controllers\ApiController;
 use Illuminate\Http\JsonResponse;
 use Pion\Laravel\ChunkUpload\Exceptions\UploadMissingFileException;

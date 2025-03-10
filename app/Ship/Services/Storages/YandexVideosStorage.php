@@ -7,13 +7,13 @@ namespace App\Ship\Services\Storages;
 /**
  * @see AbstractStorage
  */
-final class YandexProfileStorage extends AbstractStorage
+final class YandexVideosStorage extends AbstractStorage
 {
     /**
      * @return string
      */
     protected function disk(): string
     {
-        return 'yandex_profiles';
+        return 's3_videos';
     }
 }

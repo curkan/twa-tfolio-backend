@@ -5,12 +5,9 @@ declare(strict_types=1);
 namespace App\Containers\Common\UploadVideo\Actions;
 
 use App\Ship\Parents\Enums\Nodes\NodeTypeEnum;
-use App\Ship\Parents\Models\Image as ModelsImage;
-use App\Ship\Parents\Models\Model;
 use App\Ship\Parents\Models\Node;
 use App\Ship\Parents\Models\Video;
-use App\Ship\Parents\Models\VideoPoster;
-use App\Ship\Services\Storages\YandexProfileStorage;
+use App\Ship\Services\Storages\YandexVideosStorage;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Auth;
@@ -37,57 +34,30 @@ final class UploadFileVideo
         // move the file name
         $file = $file->move($finalPath, $fileName);
 
-        $sizes = [
-            'original' => null,
-            'md' => [1200, null],
-            'sm' => [800, null],
-            'xs' => [400, null],
-        ];
+        $pathToFile = $finalPath . '/' . $fileName;
 
         /**
-         * @var Model $imageModel
+         * @var Video $video
          */
         $video = new Video();
         $video->user_id = Auth::id();
         $video->save();
 
-        $nameFile = resolve(YandexProfileStorage::class)->filesystem()->putFile(
-            Auth::id() . '/videos/' . $video->getKey() . '/',
-            $finalPath . '/' . $fileName
+        $nameFile = resolve(YandexVideosStorage::class)->filesystem()->putFile(
+            Auth::id() . '/' . $video->getKey() . '/',
+            $pathToFile
         );
 
-        VideoPoster::create([
-            'video_id' => $video,
-            'original' => null,
-        ]);
+        $video->link = Str::contains($nameFile, '/') ? Str::afterLast($nameFile, '/') : $nameFile;
+        $video->save();
 
-        // foreach ($sizes as $size => $dimensions) {
-        //     if ($size === 'original') {
-        //         $image->encode('webp', 100)->save($image->basePath(), 100, 'webp');
-        //         $nameFile = resolve(YandexProfileStorage::class)->filesystem()->putFile(
-        //             Auth::id() . '/' . $imageModel->getKey() . '/',
-        //             $image->basePath()
-        //         );
-        //         $imageModel->original = Str::contains($nameFile, '/') ? Str::afterLast($nameFile, '/') : $nameFile; /* @phpstan-ignore-line */
-        //     } else {
-        //         $image->resize($dimensions[0], null, function ($constraint): void {
-        //             $constraint->aspectRatio();
-        //         })->encode('webp', 100)->save($image->basePath(), 100, 'webp');
-        //         $nameFile = resolve(YandexProfileStorage::class)->filesystem()->putFile(
-        //             Auth::id() . '/' . $imageModel->getKey() . '/',
-        //             $image->basePath()
-        //         );
-        //         $imageModel->{$size} = Str::contains($nameFile, '/') ? Str::afterLast($nameFile, '/') : $nameFile;
-        //     }
-        // }
-        //
-        // unset($image);
-        // $imageModel->save();
-        // unlink($file->getPathname());
+        (new MakePoster())->run($video, $pathToFile, $finalPath);
 
         $lastNode = Node::where('user_id', Auth::id())->orderByDesc('sort')->first();
 
         $file = new Filesystem();
+
+        unlink($pathToFile);
 
         return Node::create([
             'user_id' => Auth::id(),
@@ -107,11 +77,8 @@ final class UploadFileVideo
     private function createFilename(UploadedFile $file): string
     {
         $extension = $file->getClientOriginalExtension();
-        $filename = str_replace('.' . $extension, '', $file->getClientOriginalName()); // Filename without extension
+        $uuid = Str::uuid();
 
-        // Add timestamp hash to name of the file
-        $filename .= '_' . md5((string) time()) . '.' . $extension;
-
-        return $filename;
+        return $uuid->toString();
     }
 }
