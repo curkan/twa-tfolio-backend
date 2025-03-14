@@ -58,7 +58,7 @@ return [
             'throw' => false,
         ],
 
-        'yandex_profiles' => [
+        's3_images' => [
             'driver' => 's3',
             'key' => env('YANDEX_ACCESS_KEY_ID'),
             'secret' => env('YANDEX_SECRET_ACCESS_KEY'),
@@ -69,6 +69,19 @@ return [
             'use_path_style_endpoint' => env('YANDEX_USE_PATH_STYLE_ENDPOINT', false),
             'throw' => true,
         ],
+
+        's3_videos' => [
+            'driver' => 's3',
+            'key' => env('YANDEX_ACCESS_KEY_ID'),
+            'secret' => env('YANDEX_SECRET_ACCESS_KEY'),
+            'region' => env('YANDEX_DEFAULT_REGION'),
+            'bucket' => env('YANDEX_VIDEOS_BUCKET'),
+            'url' => env('YANDEX_URL'),
+            'endpoint' => env('YANDEX_ENDPOINT'),
+            'use_path_style_endpoint' => env('YANDEX_USE_PATH_STYLE_ENDPOINT', false),
+            'throw' => true,
+        ],
+
 
     ],
 

@@ -6,12 +6,12 @@ namespace App\Ship\Parents\Models;
 
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class Image extends Model
+class VideoPoster extends Model
 {
     /**
      * @var string
      */
-    protected $table = 'images';
+    protected $table = 'video_posters';
 
     /**
      * The attributes that are mass assignable.
@@ -20,7 +20,7 @@ class Image extends Model
      */
     protected $fillable = [
         'id',
-        'user_id',
+        'video_id',
         'bucket',
         'original',
         'md',
@@ -31,9 +31,9 @@ class Image extends Model
     /**
      * @return BelongsTo
      */
-    public function user(): BelongsTo
+    public function video(): BelongsTo
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(Video::class);
     }
 
     /**
@@ -91,21 +91,13 @@ class Image extends Model
      */
     public function makePath(string $key): string
     {
-        return config('filesystems.disks.s3_images.endpoint') .
+        return config('filesystems.disks.s3_videos.endpoint') .
             '/' .
-            config('filesystems.disks.s3_images.bucket') .
+            config('filesystems.disks.s3_videos.bucket') .
             '/' .
-            $this->user->getKey() .
+            $this->video->user->getKey() .
             '/' .
-            $this->getKey() .
-            '/' . $key;
+            $this->video->getKey() .
+            '/posters/' . $key;
     }
-
-    // /**
-    //  * @return UserFactory|null
-    //  */
-    // protected static function newFactory(): ?UserFactory
-    // {
-    //     return UserFactory::new();
-    // }
 }

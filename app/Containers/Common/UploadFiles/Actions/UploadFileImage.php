@@ -8,7 +8,7 @@ use App\Ship\Parents\Enums\Nodes\NodeTypeEnum;
 use App\Ship\Parents\Models\Image as ModelsImage;
 use App\Ship\Parents\Models\Model;
 use App\Ship\Parents\Models\Node;
-use App\Ship\Services\Storages\YandexProfileStorage;
+use App\Ship\Services\Storages\YandexImagesStorage;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Auth;
@@ -62,7 +62,7 @@ final class UploadFileImage
         foreach ($sizes as $size => $dimensions) {
             if ($size === 'original') {
                 $image->encode('webp', 100)->save($image->basePath(), 100, 'webp');
-                $nameFile = resolve(YandexProfileStorage::class)->filesystem()->putFile(
+                $nameFile = resolve(YandexImagesStorage::class)->filesystem()->putFile(
                     Auth::id() . '/' . $imageModel->getKey() . '/',
                     $image->basePath()
                 );
@@ -71,7 +71,7 @@ final class UploadFileImage
                 $image->resize($dimensions[0], null, function ($constraint): void {
                     $constraint->aspectRatio();
                 })->encode('webp', 100)->save($image->basePath(), 100, 'webp');
-                $nameFile = resolve(YandexProfileStorage::class)->filesystem()->putFile(
+                $nameFile = resolve(YandexImagesStorage::class)->filesystem()->putFile(
                     Auth::id() . '/' . $imageModel->getKey() . '/',
                     $image->basePath()
                 );
