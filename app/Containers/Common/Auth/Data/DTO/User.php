@@ -12,7 +12,7 @@ class User
         private ?string $lastName,
         private ?string $username,
         private ?string $languageCode,
-        private ?bool $allowsWriteToPm,
+        private bool $allowsWriteToPm,
         private ?string $photoUrl
     ) {}
 
@@ -29,7 +29,7 @@ class User
             lastName: $array['last_name'],
             username: $array['username'] ?? null,
             languageCode: $array['language_code'],
-            allowsWriteToPm: $array['allows_write_to_pm'] ?? null,
+            allowsWriteToPm: $array['allows_write_to_pm'] ?? false,
             photoUrl: $array['photo_url'],
         );
     }
