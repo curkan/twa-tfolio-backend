@@ -27,7 +27,7 @@ class User
             id: $array['id'],
             firstName: $array['first_name'],
             lastName: $array['last_name'],
-            username: $array['username'],
+            username: $array['username'] ?? null,
             languageCode: $array['language_code'],
             allowsWriteToPm: $array['allows_write_to_pm'] ?? null,
             photoUrl: $array['photo_url'],
