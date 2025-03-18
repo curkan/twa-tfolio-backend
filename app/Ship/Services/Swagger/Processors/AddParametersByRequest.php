@@ -123,8 +123,8 @@ final class AddParametersByRequest implements ProcessorInterface
             if (isset($options['context']['constant'])) {
                 $class = new ReflectionClass($requestClass);
                 if ($context = $class->getConstant($options['context']['constant'])) {
-                    $options['options']['description'] =
-                        str_replace('{{context}}', implode(', ', $context), $options['options']['description']);
+                    $options['options']['description']
+                        = str_replace('{{context}}', implode(', ', $context), $options['options']['description']);
                 }
             }
 

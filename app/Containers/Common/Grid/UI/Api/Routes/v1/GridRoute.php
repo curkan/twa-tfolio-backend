@@ -9,7 +9,7 @@ use App\Containers\Common\Grid\UI\Api\Controllers\UpdateGridController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware(AuthMiddleware::class)->prefix('common')->name('common.')->group(function (): void {
-    Route::get('grid', GetGridController::class);
-    Route::get('grid/{id}', GetNodeController::class)->whereNumber('id');
-    Route::put('grid', UpdateGridController::class);
+    Route::get('grid', GetGridController::class)->name('grid.index');
+    Route::get('grid/{id}', GetNodeController::class)->whereNumber('id')->name('grid.show');
+    Route::put('grid', UpdateGridController::class)->name('grid.update');
 });

@@ -111,13 +111,13 @@ final class UploadFileImage
         $randomFilename = bin2hex(random_bytes(8));
 
         $tmpFilepath = storage_path(
-            self::TEMP_HEIC_STORAGE_DIR .
-            $randomFilename . ".{$extension}"
+            self::TEMP_HEIC_STORAGE_DIR
+            . $randomFilename . ".{$extension}"
         );
 
         $convertedFilepath = storage_path(
-            self::TEMP_HEIC_STORAGE_DIR .
-            $randomFilename . '.jpg'
+            self::TEMP_HEIC_STORAGE_DIR
+            . $randomFilename . '.jpg'
         );
 
         File::put($tmpFilepath, $file->getContent());
