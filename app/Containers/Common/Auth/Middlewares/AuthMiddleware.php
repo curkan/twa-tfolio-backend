@@ -7,6 +7,7 @@ namespace App\Containers\Common\Auth\Middlewares;
 use App\Containers\Common\Auth\Actions\TWAAuth;
 use App\Containers\Common\Auth\Data\DTO\User;
 use App\Ship\Parents\Models\User as ModelsUser;
+use Auth;
 use Closure;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Http\JsonResponse;
@@ -21,6 +22,10 @@ final class AuthMiddleware
      */
     public function handle(Request $request, Closure $next): JsonResponse
     {
+        if (Auth::user() !== null) {
+            return $next($request);
+        }
+
         $token = $request->bearerToken();
         if ($token === null) {
             throw new AuthenticationException('Not set data');

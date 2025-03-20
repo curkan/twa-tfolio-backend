@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Ship\Parents\Models;
 
+use App\Ship\Parents\Factories\ImageFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Image extends Model
@@ -91,21 +92,21 @@ class Image extends Model
      */
     public function makePath(string $key): string
     {
-        return config('filesystems.disks.s3_images.endpoint') .
-            '/' .
-            config('filesystems.disks.s3_images.bucket') .
-            '/' .
-            $this->user->getKey() .
-            '/' .
-            $this->getKey() .
-            '/' . $key;
+        return config('filesystems.disks.s3_images.endpoint')
+            . '/'
+            . config('filesystems.disks.s3_images.bucket')
+            . '/'
+            . $this->user->getKey()
+            . '/'
+            . $this->getKey()
+            . '/' . $key;
     }
 
-    // /**
-    //  * @return UserFactory|null
-    //  */
-    // protected static function newFactory(): ?UserFactory
-    // {
-    //     return UserFactory::new();
-    // }
+    /**
+     * @return ImageFactory|null
+     */
+    protected static function newFactory(): ?ImageFactory
+    {
+        return ImageFactory::new();
+    }
 }
