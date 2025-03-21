@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Ship\Parents\Models;
 
+use App\Ship\Parents\Factories\VideoFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 
@@ -17,7 +18,7 @@ class Video extends Model
     /**
      * The attributes that are mass assignable.
      *
-     * @var array<int, string>
+     * @var list<string>
      */
     protected $fillable = [
         'id',
@@ -49,14 +50,14 @@ class Video extends Model
      */
     public function makePath(string $key): string
     {
-        return config('filesystems.disks.s3_videos.endpoint') .
-            '/' .
-            config('filesystems.disks.s3_videos.bucket') .
-            '/' .
-            $this->user->getKey() .
-            '/' .
-            $this->getKey() .
-            '/' . $key;
+        return config('filesystems.disks.s3_videos.endpoint')
+            . '/'
+            . config('filesystems.disks.s3_videos.bucket')
+            . '/'
+            . $this->user->getKey()
+            . '/'
+            . $this->getKey()
+            . '/' . $key;
     }
 
     /**
@@ -69,5 +70,13 @@ class Video extends Model
         }
 
         return $this->makePath($this->attributes['link']);
+    }
+
+    /**
+     * @return VideoFactory|null
+     */
+    protected static function newFactory(): ?VideoFactory
+    {
+        return VideoFactory::new();
     }
 }

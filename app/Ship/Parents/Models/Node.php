@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Ship\Parents\Models;
 
 use App\Ship\Parents\Enums\Nodes\NodeTypeEnum;
+use App\Ship\Parents\Factories\NodeFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Node extends Model
@@ -22,7 +23,7 @@ class Node extends Model
     /**
      * The attributes that are mass assignable.
      *
-     * @var array<int, string>
+     * @var list<string>
      */
     protected $fillable = [
         'sort',
@@ -51,11 +52,12 @@ class Node extends Model
     {
         return $this->belongsTo(Video::class);
     }
-    // /**
-    //  * @return UserFactory|null
-    //  */
-    // protected static function newFactory(): ?UserFactory
-    // {
-    //     return UserFactory::new();
-    // }
+
+    /**
+     * @return NodeFactory|null
+     */
+    protected static function newFactory(): ?NodeFactory
+    {
+        return NodeFactory::new();
+    }
 }

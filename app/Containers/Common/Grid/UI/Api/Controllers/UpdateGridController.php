@@ -11,6 +11,7 @@ use App\Ship\Parents\Models\Image;
 use App\Ship\Parents\Models\Node;
 use Auth;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Auth as FacadesAuth;
 use Illuminate\Support\Facades\DB;
 
 final class UpdateGridController extends ApiController
@@ -57,7 +58,7 @@ final class UpdateGridController extends ApiController
         $nodes = $nodesFromUser;
 
         return $this->resourceCollection(GridResource::make((object) [
-            'id' => 1234,
+            'user_id' => FacadesAuth::user()->getKey(),
             'nodes' => $nodes,
         ]));
     }

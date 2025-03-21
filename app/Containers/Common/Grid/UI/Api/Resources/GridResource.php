@@ -17,7 +17,7 @@ final class GridResource extends JsonResource
     public function toArray($request)
     {
         return [
-            'user' => (int) $this->id,
+            'user' => (int) $this->user_id,
             'grid' => NodeResource::collection($this->nodes),
         ];
     }

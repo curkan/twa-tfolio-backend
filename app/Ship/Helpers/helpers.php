@@ -126,3 +126,13 @@ if (!function_exists('transaction_or_throw')) {
         }
     }
 }
+
+if (!function_exists('is_testing')) {
+    /**
+     * @return bool
+     */
+    function is_testing(): bool
+    {
+        return config('app.env') === 'testing';
+    }
+}

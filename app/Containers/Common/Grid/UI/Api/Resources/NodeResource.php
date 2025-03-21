@@ -45,12 +45,6 @@ final class NodeResource extends JsonResource
                     ];
                 }
             }),
-            // 'image' => $this->when($this->video !== null, fn () => [
-            //     'original' => $this->video->poster->pictureOriginal,
-            //     'md' => $this->video->poster->pictureMd,
-            //     'sm' => $this->video->poster->pictureSm,
-            //     'xs' => $this->video->poster->pictureXs,
-            // ]),
         ];
     }
 }

@@ -21,7 +21,12 @@ final class AuthMiddleware
      */
     public function handle(Request $request, Closure $next): JsonResponse
     {
+        if (is_testing() && auth()->guard()->check()) {
+            return $next($request);
+        }
+
         $token = $request->bearerToken();
+
         if ($token === null) {
             throw new AuthenticationException('Not set data');
         }

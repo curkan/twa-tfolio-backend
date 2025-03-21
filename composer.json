@@ -7,31 +7,31 @@
     "require": {
         "php": "^8.3",
         "bensampo/laravel-enum": "^6.11",
-        "cviebrock/eloquent-sluggable": "^11.0",
-        "darkaonline/l5-swagger": "^8.6",
+        "curkan/laravel-chunk-upload": "^1.0",
+        "curkan/laravel-settings": "^1.0",
+        "cviebrock/eloquent-sluggable": "^12.0",
+        "darkaonline/l5-swagger": "^9.0",
         "friendsofphp/php-cs-fixer": "^3.14",
         "grpc/grpc": "^1.57",
         "guzzlehttp/guzzle": "^7.2",
         "intervention/image": "^2.7",
         "itsgoingd/clockwork": "^5.2",
-        "laravel/framework": "^11.0",
+        "laravel/framework": "^12.0",
         "laravel/sanctum": "^4.0",
         "laravel/tinker": "^2.7",
         "league/flysystem-aws-s3-v3": "^3.0",
-        "npabisz/laravel-settings": "^1.0",
-        "php-ffmpeg/php-ffmpeg": "^1.3",
-        "pion/laravel-chunk-upload": "*"
+        "php-ffmpeg/php-ffmpeg": "^1.3"
     },
     "require-dev": {
         "barryvdh/laravel-ide-helper": "^3.0",
-        "brianium/paratest": "^7.2",
+        "brianium/paratest": "^7.8",
         "fakerphp/faker": "^1.9.1",
+        "larastan/larastan": "^3.1",
         "laravel/pint": "^1.0",
         "laravel/sail": "^1.0.1",
         "mockery/mockery": "^1.4.4",
-        "nunomaduro/collision": "^8.1",
-        "larastan/larastan": "^2.6",
-        "phpunit/phpunit": "^10.0",
+        "nunomaduro/collision": "^8.6",
+        "phpunit/phpunit": "^11.5",
         "spatie/laravel-ignition": "^2.0"
     },
     "autoload": {
@@ -92,10 +92,7 @@
     "config": {
         "optimize-autoloader": true,
         "preferred-install": "dist",
-        "sort-packages": true,
-        "allow-plugins": {
-            "pestphp/pest-plugin": true
-        }
+        "sort-packages": true
     },
     "minimum-stability": "stable",
     "prefer-stable": true

@@ -66,20 +66,11 @@ return [
         ],
 
         'fortest' => [
-            'driver' => 'pgsql',
+            'driver' => 'sqlite',
             'url' => env('DATABASE_URL'),
-            'host' => env('DB_TEST_HOST', '127.0.0.1'),
-            'port' => env('DB_TEST_PORT', '5432'),
-            'database' => env('DB_TEST_DATABASE', 'forge'),
-            'username' => env('DB_TEST_USERNAME', 'forge'),
-            'password' => env('DB_TEST_PASSWORD', ''),
-            'unix_socket' => env('DB_TEST_SOCKET', ''),
-            'charset' => 'utf8',
+            'database' => database_path('fortest.sqlite'),
             'prefix' => '',
-            'prefix_indexes' => true,
-            'search_path' => 'public',
-            'sslmode' => 'prefer',
-            'schema'   => 'public',
+            'foreign_key_constraints' => env('DB_FOREIGN_KEYS', true),
         ],
 
         'pgsql' => [

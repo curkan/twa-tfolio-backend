@@ -6,7 +6,6 @@ namespace App\Containers\Common\UploadFiles\Actions;
 
 use App\Ship\Parents\Enums\Nodes\NodeTypeEnum;
 use App\Ship\Parents\Models\Image as ModelsImage;
-use App\Ship\Parents\Models\Model;
 use App\Ship\Parents\Models\Node;
 use App\Ship\Services\Storages\YandexImagesStorage;
 use Illuminate\Filesystem\Filesystem;
@@ -52,9 +51,6 @@ final class UploadFileImage
             'xs' => [400, null],
         ];
 
-        /**
-         * @var Model $imageModel
-         */
         $imageModel = new ModelsImage();
         $imageModel->user_id = Auth::id();
         $imageModel->save();
@@ -111,13 +107,13 @@ final class UploadFileImage
         $randomFilename = bin2hex(random_bytes(8));
 
         $tmpFilepath = storage_path(
-            self::TEMP_HEIC_STORAGE_DIR .
-            $randomFilename . ".{$extension}"
+            self::TEMP_HEIC_STORAGE_DIR
+            . $randomFilename . ".{$extension}"
         );
 
         $convertedFilepath = storage_path(
-            self::TEMP_HEIC_STORAGE_DIR .
-            $randomFilename . '.jpg'
+            self::TEMP_HEIC_STORAGE_DIR
+            . $randomFilename . '.jpg'
         );
 
         File::put($tmpFilepath, $file->getContent());
