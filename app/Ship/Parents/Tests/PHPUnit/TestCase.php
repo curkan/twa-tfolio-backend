@@ -65,7 +65,6 @@ abstract class TestCase extends AbstractTestCase
     protected function authByUser($user = null): ?User
     {
         $user = $user ?: User::factory()->createQuietly();
-        $user->assignRole('user');
 
         $this->actingAs($user);
 

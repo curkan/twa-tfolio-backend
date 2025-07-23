@@ -16,7 +16,6 @@ final class UploadGridRequest extends Request
     public function authorize()
     {
         return true;
-        // return Gate::allows('update', Profile::find(Auth::id()));
     }
 
     /**
@@ -27,7 +26,13 @@ final class UploadGridRequest extends Request
     public function rules()
     {
         return [
-            'picture' => 'file|image|mimes:jpg,jpeg,png,gif|max:2048',
+            'nodes' => 'required|array',
+            'nodes.*.x' => 'integer',
+            'nodes.*.y' => 'integer',
+            'nodes.*.w' => 'integer',
+            'nodes.*.h' => 'integer',
+            'nodes.*.id' => 'string',
+            'nodes.*.sort' => 'string',
         ];
     }
 }

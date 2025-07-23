@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Ship\Parents\Models;
 
+use App\Ship\Parents\Factories\VideoPosterFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class VideoPoster extends Model
@@ -16,7 +17,7 @@ class VideoPoster extends Model
     /**
      * The attributes that are mass assignable.
      *
-     * @var array<int, string>
+     * @var list<string>
      */
     protected $fillable = [
         'id',
@@ -91,13 +92,21 @@ class VideoPoster extends Model
      */
     public function makePath(string $key): string
     {
-        return config('filesystems.disks.s3_videos.endpoint') .
-            '/' .
-            config('filesystems.disks.s3_videos.bucket') .
-            '/' .
-            $this->video->user->getKey() .
-            '/' .
-            $this->video->getKey() .
-            '/posters/' . $key;
+        return config('filesystems.disks.s3_videos.endpoint')
+            . '/'
+            . config('filesystems.disks.s3_videos.bucket')
+            . '/'
+            . $this->video->user->getKey() /* @phpstan-ignore-line */
+            . '/'
+            . $this->video->getKey()
+            . '/posters/' . $key;
+    }
+
+    /**
+     * @return VideoPosterFactory|null
+     */
+    protected static function newFactory(): ?VideoPosterFactory
+    {
+        return VideoPosterFactory::new();
     }
 }
