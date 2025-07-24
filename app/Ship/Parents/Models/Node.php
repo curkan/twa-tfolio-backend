@@ -7,6 +7,7 @@ namespace App\Ship\Parents\Models;
 use App\Ship\Parents\Enums\Nodes\NodeTypeEnum;
 use App\Ship\Parents\Factories\NodeFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Node extends Model
 {
@@ -35,6 +36,7 @@ class Node extends Model
         'type',
         'image_id',
         'video_id',
+        'description',
     ];
 
     /**
@@ -51,6 +53,22 @@ class Node extends Model
     public function video(): BelongsTo
     {
         return $this->belongsTo(Video::class);
+    }
+
+    /**
+     * @return HasMany
+     */
+    public function likes(): HasMany
+    {
+        return $this->hasMany(NodeLikes::class);
+    }
+
+    /**
+     * @return BelongsTo
+     */
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
     }
 
     /**

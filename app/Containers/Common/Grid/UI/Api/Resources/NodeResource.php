@@ -45,6 +45,10 @@ final class NodeResource extends JsonResource
                     ];
                 }
             }),
+            'description' => $this->description,
+            'meta' => [
+                'owner' => true,
+            ],
         ];
     }
 }

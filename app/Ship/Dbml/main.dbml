@@ -1,0 +1,58 @@
+Table users {
+  id bigserial [primary key]
+  first_name varchar(191)
+  last_name varchar(191)
+  username varchar(191) [unique]
+  language_code varchar(191)
+  allows_write_to_pm boolean [not null]
+  created_at timestamp
+  updated_at timestamp
+  photo_url varchar(191)
+  display_name varchar
+  biography varchar(1024)
+}
+
+Table videos {
+  id bigserial [primary key]
+  user_id bigint [not null, ref: > users.id]
+  bucket varchar(191)
+  link varchar(191)
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table images {
+  id bigserial [primary key]
+  user_id bigint [not null, ref: > users.id]
+  bucket varchar(191)
+  original varchar(191)
+  md varchar(191)
+  sm varchar(191)
+  xs varchar(191)
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table nodes {
+  id bigserial [primary key]
+  sort integer [not null]
+  user_id bigint [not null, ref: > users.id]
+  x integer [not null]
+  y integer [not null]
+  w integer [not null]
+  h integer [not null]
+  type varchar(191) [not null, note: 'image|video']
+  image_id bigint [ref: > images.id]
+  created_at timestamp
+  updated_at timestamp
+  video_id bigint [ref: > videos.id]
+  description text
+}
+
+Table node_likes {
+  user_id bigint [not null, ref: > users.id]
+  node_id bigint [not null, ref: > nodes.id]
+  created_at timestamp
+  updated_at timestamp
+  deleted_at timestamp
+}

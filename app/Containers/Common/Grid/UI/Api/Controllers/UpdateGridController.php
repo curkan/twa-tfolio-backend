@@ -34,10 +34,6 @@ final class UpdateGridController extends ApiController
 
         $nodesFromUser = Node::query()->where('user_id', Auth::id())->whereIn('id', $nodesIds)->get();
 
-        if ($nodesFromUser->count() !== $nodes->count()) {
-            $this->authorize(false);
-        }
-
         DB::beginTransaction();
         foreach ($nodesFromUser as $node) {
             /** @var Node $node */
