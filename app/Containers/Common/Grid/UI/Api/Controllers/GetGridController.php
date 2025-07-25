@@ -49,7 +49,7 @@ final class GetGridController extends ApiController
         }
 
         return $this->resourceCollection(GridResource::make((object) [
-            'user_id' => Auth::id(),
+            'user_id' => $userId,
             'nodes' => $nodes,
         ]));
     }

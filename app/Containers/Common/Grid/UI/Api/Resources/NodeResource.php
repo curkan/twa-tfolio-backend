@@ -7,6 +7,7 @@ namespace App\Containers\Common\Grid\UI\Api\Resources;
 use App\Ship\Parents\Enums\Nodes\NodeTypeEnum;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Facades\Auth;
 
 final class NodeResource extends JsonResource
 {
@@ -17,6 +18,9 @@ final class NodeResource extends JsonResource
      */
     public function toArray($request)
     {
+        $isLiked = $this->likes()->where('user_id', Auth::id())->exists(); /* @phpstan-ignore-line */
+        $isOwner = $this->user?->is(Auth::user()) ?? false;
+
         return [
             'id' => (int) $this->id,
             'sort' => (int) $this->sort,
@@ -46,8 +50,11 @@ final class NodeResource extends JsonResource
                 }
             }),
             'description' => $this->description,
+            'likes_count' => $this->likes()->count(), /* @phpstan-ignore-line */
+            'user' => UserNodeResource::make($this->user),
             'meta' => [
-                'owner' => true,
+                'owner' => $isOwner,
+                'is_liked' => $isLiked,
             ],
         ];
     }

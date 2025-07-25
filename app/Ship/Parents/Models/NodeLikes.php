@@ -12,7 +12,7 @@ class NodeLikes extends Model
     use SoftDeletes;
 
     protected $fillable = [
-        'post_id',
+        'node_id',
         'user_id',
     ];
 
