@@ -47,7 +47,9 @@ final class UpdateGridController extends ApiController
         }
 
         $unusedImagesIds = Node::query()->where('user_id', Auth::id())->whereNotIn('id', $nodesIds)->pluck('image_id');
-        Node::query()->where('user_id', Auth::id())->whereNotIn('id', $nodesIds)->delete();
+        Node::where('user_id', Auth::id())->whereNotIn('id', $nodesIds)->get()->each(function ($node) {
+            $node->delete();
+        });
         Image::query()->where('user_id', Auth::id())->whereIn('id', $unusedImagesIds)->delete();
         DB::commit();
 

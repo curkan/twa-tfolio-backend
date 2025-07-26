@@ -78,4 +78,13 @@ class Node extends Model
     {
         return NodeFactory::new();
     }
+
+    /**
+     */
+    protected static function booted()
+    {
+        static::deleting(function ($node) {
+            $node->likes()->forceDelete();
+        });
+    }
 }
