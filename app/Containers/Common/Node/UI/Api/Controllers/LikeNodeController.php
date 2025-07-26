@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Containers\Common\Node\UI\Api\Controllers;
 
 use App\Containers\Common\Grid\UI\Api\Resources\NodeResource;
+use App\Containers\Common\Node\UI\Api\Events\NodeLiked;
 use App\Ship\Parents\Controllers\ApiController;
 use App\Ship\Parents\Models\Node;
 use App\Ship\Parents\Models\NodeLikes;
@@ -32,10 +33,11 @@ final class LikeNodeController extends ApiController
             $productLike = NodeLikes::create([
                 'node_id' => $id,
                 'user_id' => Auth::id(),
+                'author_user_id' => $node->user->getKey(),
             ]);
 
             if (!$isNotFirstLiked) {
-                // ProductLiked::dispatch($productLike);
+                NodeLiked::dispatch($productLike);
             }
         }
 

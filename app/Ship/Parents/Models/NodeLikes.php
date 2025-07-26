@@ -14,6 +14,7 @@ class NodeLikes extends Model
     protected $fillable = [
         'node_id',
         'user_id',
+        'author_user_id',
     ];
 
     /**
@@ -30,5 +31,13 @@ class NodeLikes extends Model
     public function node(): BelongsTo
     {
         return $this->belongsTo(Node::class);
+    }
+
+    /**
+     * @return BelongsTo
+     */
+    public function author(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'author_user_id');
     }
 }

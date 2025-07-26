@@ -11,6 +11,7 @@ use Closure;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\App;
 
 final class AuthMiddleware
 {
@@ -61,6 +62,12 @@ final class AuthMiddleware
         }
 
         app('auth')->setUser($authUser);
+
+        $userLanguage = $authUser->language_code;
+
+        if ($userLanguage) {
+            App::setLocale($userLanguage);
+        }
 
         return $next($request);
     }

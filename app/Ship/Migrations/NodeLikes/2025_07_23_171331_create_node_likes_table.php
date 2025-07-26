@@ -16,6 +16,7 @@ return new class extends Migration {
             $table->id();
             $table->foreignId('node_id')->constrained();
             $table->foreignId('user_id')->constrained();
+            $table->foreignId('author_user_id')->constrained('users');
             $table->timestamps();
             $table->softDeletes();
         });
