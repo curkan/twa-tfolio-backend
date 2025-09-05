@@ -154,7 +154,8 @@ final class GridTest extends TestCase
 
         $newNodes = Node::factory([
             'user_id' => $user->getKey(),
-            'type' => NodeTypeEnum::Image, ])->count(2)->make();
+            'type' => NodeTypeEnum::Image,
+        ])->count(2)->make();
 
         $nodeUpdates = [];
 

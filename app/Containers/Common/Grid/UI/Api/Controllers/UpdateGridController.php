@@ -34,10 +34,6 @@ final class UpdateGridController extends ApiController
 
         $nodesFromUser = Node::query()->where('user_id', Auth::id())->whereIn('id', $nodesIds)->get();
 
-        if ($nodesFromUser->count() !== $nodes->count()) {
-            $this->authorize(false);
-        }
-
         DB::beginTransaction();
         foreach ($nodesFromUser as $node) {
             /** @var Node $node */
@@ -51,7 +47,9 @@ final class UpdateGridController extends ApiController
         }
 
         $unusedImagesIds = Node::query()->where('user_id', Auth::id())->whereNotIn('id', $nodesIds)->pluck('image_id');
-        Node::query()->where('user_id', Auth::id())->whereNotIn('id', $nodesIds)->delete();
+        Node::where('user_id', Auth::id())->whereNotIn('id', $nodesIds)->get()->each(function ($node) {
+            $node->delete();
+        });
         Image::query()->where('user_id', Auth::id())->whereIn('id', $unusedImagesIds)->delete();
         DB::commit();
 
